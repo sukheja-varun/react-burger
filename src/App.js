@@ -1,10 +1,14 @@
 import React from 'react';
+import Layout from './components/Layout/Layout';
 
 function App() {
-  return <div>
-    <h1>Hello World</h1>
-    <h3>Welcome to my react app</h3>
-  </div>;
+  return (
+    <div>
+      <Layout>
+        <div>Main</div>
+      </Layout>
+    </div>
+  );
 }
 
 export default App;
