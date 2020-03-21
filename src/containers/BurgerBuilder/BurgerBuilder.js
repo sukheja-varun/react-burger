@@ -4,6 +4,12 @@ import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 
+const INGREDIENT_PRICES = {
+  salad: 20,
+  bacon: 30,
+  cheese: 20,
+  meat: 50
+};
 class BurgerBuilder extends Component {
   state = {
     ingredients: {
@@ -11,20 +17,23 @@ class BurgerBuilder extends Component {
       bacon: 0,
       cheese: 0,
       meat: 0
-    }
+    },
+    totalPrice: 80
   };
 
   onAddIngredient = type => {
     let ingredients = { ...this.state.ingredients };
     ingredients[type]++;
-    this.setState({ ingredients });
+    const totalPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
+    this.setState({ ingredients, totalPrice });
   };
 
   onRemoveIngredient = type => {
     let ingredients = { ...this.state.ingredients };
     if (ingredients[type] > 0) {
       ingredients[type]--;
-      this.setState({ ingredients });
+      const totalPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
+      this.setState({ ingredients, totalPrice });
     }
   };
 
@@ -40,9 +49,10 @@ class BurgerBuilder extends Component {
       <Aux>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
+          price={this.state.totalPrice}
+          disabled={disabledInfo}
           ingredientAdded={this.onAddIngredient}
           ingredientRemoved={this.onRemoveIngredient}
-          disabled={disabledInfo}
         />
       </Aux>
     );
