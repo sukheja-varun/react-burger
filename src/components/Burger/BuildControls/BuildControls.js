@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Classes from './BuildControls.module.scss';
+import classes from './BuildControls.module.scss';
 import BuildControl from './BuildControl/BuildControl';
-import { func, object, number } from 'prop-types';
+import { func, object, number, bool } from 'prop-types';
 
 const controls = [
   { label: 'Salad', type: 'salad' },
@@ -12,7 +12,7 @@ const controls = [
 ];
 
 const buildControls = props => (
-  <div className={Classes.BuildControls}>
+  <div className={classes.BuildControls}>
     <p>
       Current Price: <strong>{props.price.toFixed(2)}</strong>
     </p>
@@ -25,12 +25,20 @@ const buildControls = props => (
         disabled={props.disabled[ctrl.type]}
       />
     ))}
+    <button
+      className={classes.OrderButton}
+      disabled={!props.allowOrder}
+      onClick={props.ordered}
+    >
+      Order Now
+    </button>
   </div>
 );
 
 buildControls.propTypes = {
   price: number.isRequired,
   disabled: object.isRequired,
+  allowOrder: bool.isRequired,
   ingredientAdded: func.isRequired,
   ingredientRemoved: func.isRequired
 };
