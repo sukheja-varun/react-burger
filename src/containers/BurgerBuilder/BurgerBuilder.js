@@ -18,7 +18,17 @@ class BurgerBuilder extends Component {
       cheese: 0,
       meat: 0
     },
-    totalPrice: 80
+    totalPrice: 80,
+    allowOrder: false
+  };
+
+  updateAllowOrder = ingredients => {
+    let totalOrderCount = Object.values(ingredients).reduce(
+      (sum, num) => sum + num,
+      0
+    );
+    const allowOrder = totalOrderCount > 0;
+    this.setState({ allowOrder });
   };
 
   onAddIngredient = type => {
@@ -26,6 +36,7 @@ class BurgerBuilder extends Component {
     ingredients[type]++;
     const totalPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
     this.setState({ ingredients, totalPrice });
+    this.updateAllowOrder(ingredients);
   };
 
   onRemoveIngredient = type => {
@@ -35,6 +46,7 @@ class BurgerBuilder extends Component {
       const totalPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
       this.setState({ ingredients, totalPrice });
     }
+    this.updateAllowOrder(ingredients);
   };
 
   render() {
@@ -51,6 +63,7 @@ class BurgerBuilder extends Component {
         <BuildControls
           price={this.state.totalPrice}
           disabled={disabledInfo}
+          allowOrder={this.state.allowOrder}
           ingredientAdded={this.onAddIngredient}
           ingredientRemoved={this.onRemoveIngredient}
         />
